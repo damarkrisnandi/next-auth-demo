@@ -42,7 +42,7 @@ const RegisterForm: NextPage = () => {
   });
 
   const { control, register, handleSubmit } = form;
-  const { mutateAsync } = api.auth.signup.useMutation({
+  const { mutateAsync, isPending: isPendingSignUp } = api.auth.signup.useMutation({
     onSuccess: () => {},
   });
 
@@ -142,8 +142,8 @@ const RegisterForm: NextPage = () => {
                     {...register("password")}
                   /> */}
                   <div className="flex flex-col gap-2">
-                    <Button type="submit">
-                        Sign Up
+                    <Button type="submit" className="w-full" disabled={isPendingSignUp}>
+                      { !isPendingSignUp ? "Register" : "Processing..." }
                     </Button>
                     <div className="mt-4 text-center text-sm">
                       Already have and account?{" "}

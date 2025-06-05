@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 type SignOutProps = {
   className: string;
 };
-export async function SignOut({ className }: SignOutProps) {
+export function SignOut({ className }: SignOutProps) {
 
   return (
     <div>

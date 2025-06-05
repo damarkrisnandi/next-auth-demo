@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { getProviders, signIn } from "next-auth/react"
 import { useQuery } from "@tanstack/react-query"
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { loginSchema, type ILogin } from "@/lib/auth.form"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,6 +24,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+
+  const [isPendingSignIn, setIsPendingSignIn] = useState(false);
   
 
   const router = useRouter();
@@ -37,14 +39,16 @@ export function LoginForm({
   });
   
   const onSubmit = useCallback(async (data: ILogin) => {
+    setIsPendingSignIn(true);
     const response = await signIn("credentials", { ...data, redirect: false });
     if (response?.error) {
       toast(response.error)
+      setIsPendingSignIn(false)
       return;
     }
 
-
     toast(`Login successfully`)
+    setIsPendingSignIn(false)
     router.push('/')
   }, []);
   
@@ -95,8 +99,8 @@ export function LoginForm({
                   
                 </div>
                 <div className="flex flex-col gap-3">
-                  <Button type="submit" className="w-full">
-                    Login
+                  <Button type="submit" className="w-full" disabled={isPendingSignIn}>
+                    { !isPendingSignIn ? "Login" : "Processing..." }
                   </Button>
                   
                 </div>
