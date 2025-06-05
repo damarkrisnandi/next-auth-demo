@@ -55,17 +55,12 @@ export const authConfig = {
           where: { email: creds.email },
         });
 
-        console.log(user);
-
         if (!user) {
           return null;
         }
 
-        console.log(creds)
-
         const isValidPassword = await compare(creds.password, user.password);
 
-        console.log(isValidPassword)
         if (!isValidPassword) {
           return null;
         }
@@ -102,14 +97,12 @@ export const authConfig = {
         token.name = user.name;
       }
 
-      console.log('cek-token', token)
-
       return token;
     },
     session: async ({ session, token, user }) => {
-      if (token) {
-        session.id = token.id;
-      }
+      // if (token) {
+      //   session.id = token.id;
+      // }
 
       return session;
     },

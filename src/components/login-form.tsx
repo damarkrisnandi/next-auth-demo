@@ -30,12 +30,16 @@ export function LoginForm({
 
   const form = useForm<ILogin>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
   });
   
   const onSubmit = useCallback(async (data: ILogin) => {
     const response = await signIn("credentials", { ...data, redirect: false });
     if (response?.error) {
-      toast(JSON.stringify(response))
+      toast(response.error)
       return;
     }
 

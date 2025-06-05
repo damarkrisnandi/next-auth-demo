@@ -34,6 +34,11 @@ const RegisterForm: NextPage = () => {
   const router = useRouter();
   const form = useForm<ISignUp>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      name: '',
+    }
   });
 
   const { control, register, handleSubmit } = form;
